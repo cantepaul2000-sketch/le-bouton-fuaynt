@@ -1,43 +1,273 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Le Bouton Fuaynt</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
-            margin: 0;
-            padding: 20px;
-        }
-        h1 {
-            color: #333;
-        }
-        #content {
-            background: white;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bouton qui fuit</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      background-color: #f0f0f0;
+    }
+
+    #container {
+      position: relative;
+      width: 100%;
+      height: 100%;
+    }
+
+    #attrapeMoi {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      padding: 10px 20px;
+      font-size: 16px;
+      background-color: #ff0000;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: transform 0.2s; 
+    }
+
+    #attrapeMoi:hover {
+      transform: translate(-50%, -50%) scale(1.1);
+    }
+
+    #image {
+      display: none;
+      text-align: center;
+    }
+
+    #image img {
+      max-width: 100%;
+      max-height: 80vh;
+    }
+
+    #easterEggBtn {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      width: 40px;
+      height: 40px;
+      background-color: transparent;
+      border: none;
+      cursor: pointer;
+      z-index: 10;
+      opacity: 0.1;
+    }
+
+    #videoOverlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.9);
+      z-index: 1000;
+      justify-content: center;
+      align-items: center;
+    }
+
+    #easterVideo {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+
+    #transitionOverlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0);
+      z-index: 1000;
+      opacity: 0;
+      transition: opacity 2s ease-in-out;
+    }
+
+    #transitionOverlay.darkening {
+      opacity: 1;
+      background-color: rgba(0, 0, 0, 1);
+    }
+
+    #congratulations {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      z-index: 1001;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      text-align: center;
+      opacity: 0;
+      animation: fadeIn 1s ease-in-out 0.5s forwards;
+    }
+
+    #congratulations h1 {
+      color: white;
+      font-size: 48px;
+      margin-bottom: 20px;
+      animation: screamer 0.3s ease-in-out 2.5s;
+    }
+
+    #congratulations p {
+      color: white;
+      font-size: 24px;
+      margin-bottom: 30px;
+    }
+
+    #congratulations button {
+      padding: 15px 40px;
+      font-size: 18px;
+      background-color: white;
+      color: #667eea;
+      border: none;
+      border-radius: 50px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: transform 0.2s;
+    }
+
+    #congratulations button:hover {
+      transform: scale(1.05);
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    @keyframes screamer {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.3); }
+      100% { transform: scale(1); }
+    }
+  </style>
 </head>
 <body>
-    <div id="content">
-        <h1>Welcome to Le Bouton Fuaynt</h1>
-        <p>This is your interactive button demo.</p>
-        <button id="fuayntBtn">Click me!</button>
-        <div id="message" style="margin-top: 20px;"></div>
+  <div id="container">
+    <button id="attrapeMoi">Attrape-moi</button>
+    <div id="image">
+      <p>Bravo ! Vous avez gagnez!!!! :</p>
+      <img src="https://i.ytimg.com/vi/DwIy4kXMQAc/maxresdefault.jpg" alt="Félicitations !">
     </div>
-    <script>
-        // Source code protection
-        Object.freeze(LeBoutonFuaynt);
-        const btn = document.getElementById('fuayntBtn');
-        const messageDiv = document.getElementById('message');
+  </div>
 
-        btn.addEventListener('click', () => {
-            messageDiv.textContent = 'Button clicked!';
-        });
-    </script>
+  <button id="easterEggBtn"></button>
+
+  <div id="videoOverlay">
+    <video id="easterVideo">
+      <source src="https://i.makeagif.com/media/5-11-2025/A9yB1G.mp4" type="video/mp4">
+      Votre navigateur ne supporte pas la vidéo.
+    </video>
+  </div>
+
+  <div id="transitionOverlay"></div>
+
+  <div id="congratulations">
+    <h1>🎉 Easter Egg Trouvé ! 🎉</h1>
+    <p>Vous avez découvert le secret caché !</p>
+  </div>
+
+  <script>
+    const button = document.getElementById('attrapeMoi');
+    const container = document.getElementById('container');
+    const imageDiv = document.getElementById('image');
+    const easterEggBtn = document.getElementById('easterEggBtn');
+    const videoOverlay = document.getElementById('videoOverlay');
+    const easterVideo = document.getElementById('easterVideo');
+    const congratulations = document.getElementById('congratulations');
+    const transitionOverlay = document.getElementById('transitionOverlay');
+
+    // Bouton principal - s'échappe à l'approche
+    button.addEventListener('mouseover', () => {
+      const containerRect = container.getBoundingClientRect();
+      const buttonRect = button.getBoundingClientRect();
+
+      // Zone protégée en bas à droite (où l'Easter Egg est)
+      const safeZone = 100;
+      const maxX = containerRect.width - buttonRect.width - safeZone;
+      const maxY = containerRect.height - buttonRect.height - safeZone;
+
+      let randomX, randomY;
+      
+      do {
+        randomX = Math.random() * maxX;
+        randomY = Math.random() * maxY;
+      } while (randomX > maxX - safeZone && randomY > maxY - safeZone);
+
+      button.style.left = `${randomX}px`;
+      button.style.top = `${randomY}px`;
+      button.style.transform = 'translate(0, 0) scale(1)';
+    });
+
+    button.addEventListener('click', () => {
+      button.style.display = 'none';
+      imageDiv.style.display = 'block';
+    });
+
+    // Bouton Easter Egg caché
+    easterEggBtn.addEventListener('click', () => {
+      videoOverlay.style.display = 'flex';
+      easterVideo.play();
+    });
+
+    // Quand la vidéo se termine
+    easterVideo.addEventListener('ended', () => {
+      // Masquer la vidéo
+      videoOverlay.style.display = 'none';
+      
+      // Afficher et activer la transition sombre
+      transitionOverlay.style.display = 'block';
+      setTimeout(() => {
+        transitionOverlay.classList.add('darkening');
+      }, 50);
+
+      // Afficher la page Easter Egg après la transition
+      setTimeout(() => {
+        congratulations.style.display = 'flex';
+      }, 1000);
+
+      // Screamer (bruit fort + animation)
+      playScreamer();
+
+      // Recharger après 6 secondes
+      setTimeout(() => {
+        location.reload();
+      }, 6000);
+    });
+
+    // Fonction pour le screamer
+    function playScreamer() {
+      // Créer un son de screamer (bruit blanc loud)
+      const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+      const oscillator = audioContext.createOscillator();
+      const gainNode = audioContext.createGain();
+      
+      oscillator.connect(gainNode);
+      gainNode.connect(audioContext.destination);
+      
+      oscillator.frequency.value = 800;
+      gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
+      gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.2);
+      
+      oscillator.start(audioContext.currentTime);
+      oscillator.stop(audioContext.currentTime + 0.2);
+    }
+  </script>
 </body>
 </html>
