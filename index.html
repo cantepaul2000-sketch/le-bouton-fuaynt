@@ -30,7 +30,6 @@
       border: none;
       border-radius: 5px;
       cursor: pointer;
-  /* On a enlevé 'left' et 'top' de la transition pour qu'il se téléporte ! */
       transition: transform 0.2s; 
     }
 
@@ -47,6 +46,87 @@
       max-width: 100%;
       max-height: 80vh;
     }
+
+    #easterEggBtn {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      width: 40px;
+      height: 40px;
+      background-color: transparent;
+      border: none;
+      cursor: pointer;
+      z-index: 10;
+      opacity: 0.1;
+    }
+
+    #videoOverlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.9);
+      z-index: 1000;
+      justify-content: center;
+      align-items: center;
+    }
+
+    #easterVideo {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+
+    #congratulations {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      z-index: 1001;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      text-align: center;
+    }
+
+    #congratulations h1 {
+      color: white;
+      font-size: 48px;
+      margin-bottom: 20px;
+      animation: bounce 0.6s ease-in-out;
+    }
+
+    #congratulations p {
+      color: white;
+      font-size: 24px;
+      margin-bottom: 30px;
+    }
+
+    #congratulations button {
+      padding: 15px 40px;
+      font-size: 18px;
+      background-color: white;
+      color: #667eea;
+      border: none;
+      border-radius: 50px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: transform 0.2s;
+    }
+
+    #congratulations button:hover {
+      transform: scale(1.05);
+    }
+
+    @keyframes bounce {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.2); }
+    }
   </style>
 </head>
 <body>
@@ -58,20 +138,46 @@
     </div>
   </div>
 
+  <button id="easterEggBtn"></button>
+
+  <div id="videoOverlay">
+    <video id="easterVideo" autoplay>
+      <source src="https://i.makeagif.com/media/5-11-2025/A9yB1G.mp4" type="video/mp4">
+      Votre navigateur ne supporte pas la vidéo.
+    </video>
+  </div>
+
+  <div id="congratulations">
+    <h1>🎉 Easter Egg Trouvé ! 🎉</h1>
+    <p>Vous avez découvert le secret caché !</p>
+    <button onclick="location.reload()">Rejouer</button>
+  </div>
+
   <script>
     const button = document.getElementById('attrapeMoi');
     const container = document.getElementById('container');
     const imageDiv = document.getElementById('image');
+    const easterEggBtn = document.getElementById('easterEggBtn');
+    const videoOverlay = document.getElementById('videoOverlay');
+    const easterVideo = document.getElementById('easterVideo');
+    const congratulations = document.getElementById('congratulations');
 
+    // Bouton principal - s'échappe à l'approche
     button.addEventListener('mouseover', () => {
       const containerRect = container.getBoundingClientRect();
       const buttonRect = button.getBoundingClientRect();
 
-      const maxX = containerRect.width - buttonRect.width;
-      const maxY = containerRect.height - buttonRect.height;
+      // Zone protégée en bas à droite (où l'Easter Egg est)
+      const safeZone = 100;
+      const maxX = containerRect.width - buttonRect.width - safeZone;
+      const maxY = containerRect.height - buttonRect.height - safeZone;
 
-      const randomX = Math.random() * maxX;
-      const randomY = Math.random() * maxY;
+      let randomX, randomY;
+      
+      do {
+        randomX = Math.random() * maxX;
+        randomY = Math.random() * maxY;
+      } while (randomX > maxX - safeZone && randomY > maxY - safeZone);
 
       button.style.left = `${randomX}px`;
       button.style.top = `${randomY}px`;
@@ -80,6 +186,18 @@
     button.addEventListener('click', () => {
       button.style.display = 'none';
       imageDiv.style.display = 'block';
+    });
+
+    // Bouton Easter Egg caché
+    easterEggBtn.addEventListener('click', () => {
+      videoOverlay.style.display = 'flex';
+      easterVideo.play();
+    });
+
+    // Quand la vidéo se termine
+    easterVideo.addEventListener('ended', () => {
+      videoOverlay.style.display = 'none';
+      congratulations.style.display = 'flex';
     });
   </script>
 </body>
