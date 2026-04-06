@@ -1,1 +1,43 @@
-<!DOCTYPE html>\n<html lang="en">\n<head>\n    <meta charset="UTF-8">\n    <meta name="viewport" content="width=device-width, initial-scale=1.0">\n    <title>Game</title>\n    <style>\n        body {\n            display: flex;\n            justify-content: center;\n            align-items: center;\n            height: 100vh;\n            background-color: #f0f0f0;\n        }\n        canvas {\n            border: 1px solid #000;\n        }\n    </style>\n</head>\n<body>\n    <canvas id="gameCanvas" width="800" height="600"></canvas>\n    <script>\n        // Minified and Base64 encoded game logic\n        var gameCode = "c2V0SW50ZXJ2YWxDb25kaXRpb24oYWxsb3csIFFuYW08Lg==";\n        eval(atob(gameCode));\n    </script>\n</body>\n</html>\n
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Le Bouton Fuaynt</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+        h1 {
+            color: #333;
+        }
+        #content {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+    </style>
+</head>
+<body>
+    <div id="content">
+        <h1>Welcome to Le Bouton Fuaynt</h1>
+        <p>This is your interactive button demo.</p>
+        <button id="fuayntBtn">Click me!</button>
+        <div id="message" style="margin-top: 20px;"></div>
+    </div>
+    <script>
+        // Source code protection
+        Object.freeze(LeBoutonFuaynt);
+        const btn = document.getElementById('fuayntBtn');
+        const messageDiv = document.getElementById('message');
+
+        btn.addEventListener('click', () => {
+            messageDiv.textContent = 'Button clicked!';
+        });
+    </script>
+</body>
+</html>
