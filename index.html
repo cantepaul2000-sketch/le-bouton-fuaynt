@@ -4,9 +4,6 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Bouton qui fuit</title>
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <meta http-equiv="Pragma" content="no-cache">
-  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -187,43 +184,6 @@
   </div>
 
   <script>
-    // Désactiver le clic droit
-    document.addEventListener('contextmenu', (event) => {
-      event.preventDefault();
-    });
-
-    // Désactiver les raccourcis clavier pour ouvrir les outils de développement
-    document.addEventListener('keydown', (event) => {
-      // F12 - Outils de développement
-      if (event.keyCode === 123) {
-        event.preventDefault();
-      }
-      // Ctrl+Shift+I (Windows/Linux) - Inspecteur
-      if (event.ctrlKey && event.shiftKey && event.keyCode === 73) {
-        event.preventDefault();
-      }
-      // Ctrl+Shift+J (Windows/Linux) - Console
-      if (event.ctrlKey && event.shiftKey && event.keyCode === 74) {
-        event.preventDefault();
-      }
-      // Ctrl+Shift+C (Windows/Linux) - Inspecteur d'éléments
-      if (event.ctrlKey && event.shiftKey && event.keyCode === 67) {
-        event.preventDefault();
-      }
-      // Cmd+Option+I (Mac) - Outils de développement
-      if (event.metaKey && event.altKey && event.keyCode === 73) {
-        event.preventDefault();
-      }
-      // Cmd+Option+J (Mac) - Console
-      if (event.metaKey && event.altKey && event.keyCode === 74) {
-        event.preventDefault();
-      }
-      // Cmd+Option+U (Mac) - Source
-      if (event.metaKey && event.altKey && event.keyCode === 85) {
-        event.preventDefault();
-      }
-    });
-
     const button = document.getElementById('attrapeMoi');
     const container = document.getElementById('container');
     const imageDiv = document.getElementById('image');
